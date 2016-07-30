@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.android.inventoryapp.data.ProductContract;
 import com.example.android.inventoryapp.data.ProductDbHelper;
@@ -22,6 +23,7 @@ public class AddProductFragment extends Fragment {
 
     private static final String LOG_TAG = AddProductFragment.class.getSimpleName();
 
+    ImageView image;
     EditText nameEditText;
     EditText supplierEditText;
     EditText priceEditText;
@@ -42,6 +44,7 @@ public class AddProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_product, container, false);
 
+        image = (ImageView) rootView.findViewById(R.id.add_product_image_view);
         nameEditText = (EditText) rootView.findViewById(R.id.product_name_edit_text);
         supplierEditText = (EditText) rootView.findViewById(R.id.supplier_edit_text);
         priceEditText = (EditText) rootView.findViewById(R.id.price_edit_text);
