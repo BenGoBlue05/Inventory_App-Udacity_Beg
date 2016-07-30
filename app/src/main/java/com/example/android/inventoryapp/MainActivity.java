@@ -1,15 +1,18 @@
 package com.example.android.inventoryapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.stetho.Stetho;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainFragment.Callback{
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,5 +41,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, AddProductActivity.class));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(Uri productUri) {
+        Log.i(LOG_TAG, productUri.toString());
+        startActivity(new Intent(this, ProductDetailActivity.class));
     }
 }
