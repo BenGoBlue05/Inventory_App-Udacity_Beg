@@ -27,6 +27,24 @@ public class ProductProvider extends ContentProvider{
                 ProductContract.PATH_PRODUCT + "/#", PRODUCT_WITH_ID);
     }
 
+    private static final String sProductIdSelection =
+            ProductContract.ProductEntry._ID + " = ? ";
+
+    private Cursor getProductById(Uri uri, String[] projection){
+        String id = "" + ProductContract.ProductEntry.getIdFromUri(uri);
+        SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        return db.query(
+                ProductContract.ProductEntry.TABLE_NAME,
+                projection,
+                sProductIdSelection,
+                new String[] {id},
+                null,
+                null,
+                null
+        );
+
+    }
+
     @Override
     public boolean onCreate() {
         mOpenHelper = new ProductDbHelper(getContext());
@@ -50,6 +68,9 @@ public class ProductProvider extends ContentProvider{
                             null,
                             sortOrder
                     );
+                break;
+            case PRODUCT_WITH_ID:
+                retCursor = getProductById(uri, projection);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

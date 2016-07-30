@@ -31,16 +31,14 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     private static final String[] PRODUCT_COLUMNS = {
             ProductContract.ProductEntry._ID,
             ProductContract.ProductEntry.COLUMN_NAME,
-            ProductContract.ProductEntry.COLUMN_SUPPLIER,
             ProductContract.ProductEntry.COLUMN_QUANTITY,
             ProductContract.ProductEntry.COLUMN_PRICE
     };
 
     static final int COL_PRODUCT_ID = 0;
     static final int COL_NAME = 1;
-    static final int COL_SUPPLIER = 2;
-    static final int COL_QUANTITY = 3;
-    static final int COL_PRICE = 4;
+    static final int COL_QUANTITY = 2;
+    static final int COL_PRICE = 3;
 
 
     public interface Callback{

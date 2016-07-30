@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
@@ -18,13 +17,13 @@ public class ProductAdapter extends CursorAdapter{
         public final TextView nameTextView;
         public final TextView priceTextView;
         public final TextView quantityTextView;
-        public final Button saleButton;
+        //public final Button saleButton;
 
         public ViewHolder(View view) {
             nameTextView = (TextView) view.findViewById(R.id.listitem_name_textview);
             priceTextView = (TextView) view.findViewById(R.id.listitem_price_textview);
             quantityTextView = (TextView) view.findViewById(R.id.listitem_quantity_textview);
-            saleButton = (Button) view.findViewById(R.id.listitem_sale_button);
+            //saleButton = (Button) view.findViewById(R.id.listitem_sale_button);
         }
     }
 

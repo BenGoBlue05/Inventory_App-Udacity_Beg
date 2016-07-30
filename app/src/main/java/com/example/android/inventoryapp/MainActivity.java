@@ -46,6 +46,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Call
     @Override
     public void onItemSelected(Uri productUri) {
         Log.i(LOG_TAG, productUri.toString());
-        startActivity(new Intent(this, ProductDetailActivity.class));
+        startActivity(new Intent(this, DetailActivity.class).setData(productUri));
     }
 }
