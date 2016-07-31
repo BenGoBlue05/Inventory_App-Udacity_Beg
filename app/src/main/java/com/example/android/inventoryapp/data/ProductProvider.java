@@ -131,6 +131,11 @@ public class ProductProvider extends ContentProvider {
             case PRODUCT:
                 rowsDeleted = db.delete(ProductContract.ProductEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case PRODUCT_WITH_ID:
+                long id = ProductContract.ProductEntry.getIdFromUri(uri);
+                rowsDeleted = db.delete(ProductContract.ProductEntry.TABLE_NAME,
+                        sProductIdSelection, new String[]{Long.toString(id)});
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

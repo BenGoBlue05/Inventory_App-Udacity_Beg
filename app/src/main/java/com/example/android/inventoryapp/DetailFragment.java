@@ -1,8 +1,14 @@
 package com.example.android.inventoryapp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -23,6 +29,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     static final String DETAIL_URI = "URI";
     private Uri mUri;
     private static final int DETAIL_LOADER = 0;
+    public static final String DELETE_DIALOG_KEY = "deleteDialogFragmentKey";
+
+    private static final String DIALOG_FRAGMENT_TAG = "dialogFragment";
 
     private static final String[] DETAIL_COLUMNS = {
             ProductContract.ProductEntry._ID,
@@ -81,10 +90,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DeleteDialogFragment dialogFragment = new DeleteDialogFragment();
+                dialogFragment.setArguments(onItemDelete());
+                dialogFragment.show(getFragmentManager(), DIALOG_FRAGMENT_TAG);
             }
         });
-
-
         return rootView;
     }
 
@@ -107,6 +117,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             getContext().getContentResolver().update(mUri, null, null, null);
             getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
         }
+    }
+
+    public Bundle onItemDelete(){
+        Bundle bundle = new Bundle();
+        Uri uri;
+        if (mUri != null){
+            long id = ProductContract.ProductEntry.getIdFromUri(mUri);
+            uri = ProductContract.ProductEntry.buildProductUri(id);
+            bundle.putParcelable(DELETE_DIALOG_KEY, uri);
+            return bundle;
+        }
+        return null;
     }
 
     @Override
@@ -141,6 +163,48 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    public static class DeleteDialogFragment extends DialogFragment{
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage(R.string.sure_delete)
+                    .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mListener.onDialogPositiveClick(DeleteDialogFragment.this);
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+            return builder.create();
+        }
+
+        public interface DeleteDialogListener {
+            void onDialogPositiveClick(DeleteDialogFragment dialogFragment);
+        }
+
+        DeleteDialogListener mListener;
+
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            try{
+                mListener = (DeleteDialogListener) context;
+            }
+            catch(ClassCastException e){
+                throw new ClassCastException(context.toString() +
+                        " must implement DeleteDialogListener");
+            }
+        }
 
     }
 }
