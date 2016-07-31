@@ -65,13 +65,13 @@ public class ProductAdapter extends CursorAdapter{
                 Log.i(LOG_TAG, "BUTTON CLICKED");
                 Log.i(LOG_TAG, Long.toString(id));
                 int newQuantity = quantity - 1;
-                subtractOne(context, id, newQuantity);
+                updateQuantity(context, id, newQuantity);
             }
         });
 
     }
 
-    public void subtractOne(Context context, long id, int quantity){
+    private void updateQuantity(Context context, long id, int quantity){
         if (quantity < 0){
             return;
         }

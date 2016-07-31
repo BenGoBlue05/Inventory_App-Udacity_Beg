@@ -77,6 +77,10 @@ public class ProductProvider extends ContentProvider {
             case PRODUCT_WITH_ID:
                 retCursor = getProductById(uri, projection);
                 break;
+            case PRODUCT_ID_AND_QUANTITY:
+                retCursor = getProductById(uri, projection);
+                Log.i(LOG_TAG, "RECEIVED URI");
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -161,7 +165,7 @@ public class ProductProvider extends ContentProvider {
         return rowsUpdated;
     }
 
-    public int updateQuantity(Uri uri) {
+    private int updateQuantity(Uri uri) {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int quantity = ProductContract.ProductEntry.getQuantityFromUri(uri);
         long id = ProductContract.ProductEntry.getIdFromUri(uri);

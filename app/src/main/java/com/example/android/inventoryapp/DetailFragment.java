@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.ProductContract;
@@ -41,6 +43,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mQuantityTextView;
     private TextView mPriceTextView;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -54,6 +57,34 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mSupplierTextView = (TextView) rootView.findViewById(R.id.detail_supplier_textview);
         mQuantityTextView = (TextView) rootView.findViewById(R.id.detail_quantity_textview);
         mPriceTextView = (TextView) rootView.findViewById(R.id.detail_price_textview);
+
+        Button plusButton = (Button) rootView.findViewById(R.id.add_one_button);
+        Button minusButton = (Button) rootView.findViewById(R.id.subtract_one_button);
+        Button deleteButton = (Button) rootView.findViewById(R.id.delete_button);
+
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(LOG_TAG, "PLUS BUTTON CLICKED");
+                onQuantityChanged(1);
+
+            }
+        });
+
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onQuantityChanged(-1);
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
+
         return rootView;
     }
 
@@ -61,6 +92,21 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+    }
+
+    void onQuantityChanged(int change){
+        Uri uri = mUri;
+        if (uri != null){
+            int quantity = ProductContract.ProductEntry.getQuantityFromUri(uri) + change;
+            if (quantity < 0){
+                return;
+            }
+            long id = ProductContract.ProductEntry.getIdFromUri(uri);
+            mUri = ProductContract.ProductEntry.buildProductWithQuantityUri(id, quantity);
+            Log.i(LOG_TAG, mUri.toString());
+            getContext().getContentResolver().update(mUri, null, null, null);
+            getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+        }
     }
 
     @Override

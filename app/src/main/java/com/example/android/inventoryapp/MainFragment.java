@@ -71,7 +71,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 if (cursor != null){
                     ((Callback) getActivity())
                             .onItemSelected(ProductContract.ProductEntry
-                                    .buildProductUri(cursor.getLong(COL_PRODUCT_ID)));
+                                    .buildProductWithQuantityUri(cursor.getLong(COL_PRODUCT_ID),
+                                            cursor.getInt(COL_QUANTITY)));
                     mPosition = position;
                 }
             }
