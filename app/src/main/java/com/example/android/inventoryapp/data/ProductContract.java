@@ -35,8 +35,17 @@ public final class ProductContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+        public static Uri buildProductWithQuantityUri(long id, int quantity){
+            return buildProductUri(id).buildUpon()
+                    .appendPath(Integer.toString(quantity)).build();
+        }
+
         public static long getIdFromUri(Uri uri){
             return Long.parseLong(uri.getPathSegments().get(1));
+        }
+
+        public static int getQuantityFromUri(Uri uri){
+            return Integer.parseInt(uri.getPathSegments().get(2));
         }
     }
 

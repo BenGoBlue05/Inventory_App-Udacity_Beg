@@ -9,35 +9,40 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by bplewis5 on 7/28/16.
  */
-public class ProductProvider extends ContentProvider{
+public class ProductProvider extends ContentProvider {
 
+    private static final String LOG_TAG = ProductProvider.class.getSimpleName();
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    private ProductDbHelper mOpenHelper;
     private static final int PRODUCT = 100;
-    private static final int PRODUCT_WITH_ID =  101;
+    private static final int PRODUCT_WITH_ID = 101;
+    private static final int PRODUCT_ID_AND_QUANTITY = 200;
+    private static final String sProductIdSelection =
+            ProductContract.ProductEntry._ID + " = ? ";
 
     static {
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY,
                 ProductContract.PATH_PRODUCT, PRODUCT);
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY,
                 ProductContract.PATH_PRODUCT + "/#", PRODUCT_WITH_ID);
+        sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY,
+                ProductContract.PATH_PRODUCT + "/#/#", PRODUCT_ID_AND_QUANTITY);
     }
 
-    private static final String sProductIdSelection =
-            ProductContract.ProductEntry._ID + " = ? ";
+    private ProductDbHelper mOpenHelper;
 
-    private Cursor getProductById(Uri uri, String[] projection){
+    private Cursor getProductById(Uri uri, String[] projection) {
         String id = "" + ProductContract.ProductEntry.getIdFromUri(uri);
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
         return db.query(
                 ProductContract.ProductEntry.TABLE_NAME,
                 projection,
                 sProductIdSelection,
-                new String[] {id},
+                new String[]{id},
                 null,
                 null,
                 null
@@ -57,17 +62,17 @@ public class ProductProvider extends ContentProvider{
                         String sortOrder) {
         Cursor retCursor;
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-        switch (sUriMatcher.match(uri)){
+        switch (sUriMatcher.match(uri)) {
             case PRODUCT:
                 retCursor = db.query(
-                            ProductContract.ProductEntry.TABLE_NAME,
-                            projection,
-                            selection,
-                            selectionArgs,
-                            null,
-                            null,
-                            sortOrder
-                    );
+                        ProductContract.ProductEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             case PRODUCT_WITH_ID:
                 retCursor = getProductById(uri, projection);
@@ -82,7 +87,7 @@ public class ProductProvider extends ContentProvider{
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        switch (sUriMatcher.match(uri)){
+        switch (sUriMatcher.match(uri)) {
             case PRODUCT:
                 return ProductContract.ProductEntry.CONTENT_TYPE;
             case PRODUCT_WITH_ID:
@@ -98,7 +103,7 @@ public class ProductProvider extends ContentProvider{
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         Uri returnUri;
 
-        switch (sUriMatcher.match(uri)){
+        switch (sUriMatcher.match(uri)) {
             case PRODUCT:
                 long _id = db.insert(ProductContract.ProductEntry.TABLE_NAME, null, contentValues);
                 if (_id > 0)
@@ -118,14 +123,14 @@ public class ProductProvider extends ContentProvider{
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int rowsDeleted;
 
-        switch (sUriMatcher.match(uri)){
+        switch (sUriMatcher.match(uri)) {
             case PRODUCT:
                 rowsDeleted = db.delete(ProductContract.ProductEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        if (rowsDeleted != 0){
+        if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsDeleted;
@@ -135,18 +140,38 @@ public class ProductProvider extends ContentProvider{
     public int update(@NonNull Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int rowsUpdated;
+        Cursor cursor;
 
-        switch (sUriMatcher.match(uri)){
+        switch (sUriMatcher.match(uri)) {
             case PRODUCT:
                 rowsUpdated = db.update(
                         ProductContract.ProductEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
+            case PRODUCT_ID_AND_QUANTITY:
+                rowsUpdated = updateQuantity(uri);
+                Log.i(LOG_TAG, "URI RECOGNIZED");
+                Log.i(LOG_TAG, "URI: " + uri.toString());
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        if (rowsUpdated != 0){
+        if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;
+    }
+
+    public int updateQuantity(Uri uri) {
+        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        int quantity = ProductContract.ProductEntry.getQuantityFromUri(uri);
+        long id = ProductContract.ProductEntry.getIdFromUri(uri);
+        Log.i(LOG_TAG, "QUANTITY = " + quantity);
+        if (quantity < 0) {
+            quantity = 0;
+        }
+        ContentValues values = new ContentValues();
+        values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, quantity);
+        return db.update(ProductContract.ProductEntry.TABLE_NAME, values,
+                sProductIdSelection, new String[]{Long.toString(id)});
     }
 }

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.android.inventoryapp.data.ProductContract;
@@ -34,6 +35,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             ProductContract.ProductEntry.COLUMN_QUANTITY,
             ProductContract.ProductEntry.COLUMN_PRICE
     };
+
+    Button SaleButton;
 
     static final int COL_PRODUCT_ID = 0;
     static final int COL_NAME = 1;
