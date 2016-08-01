@@ -1,54 +1,67 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailFragment"
-    android:orientation="vertical">
+    android:layout_width="match_parent">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="360dp"
-        android:scaleType="centerCrop"/>
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/detail_name_textview"
-        tools:text="basketball"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_supplier_textview"
-        tools:text="Spalding"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_price_textview"
-        tools:text="$12"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_quantity_textview"
-        tools:text="14"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:id="@+id/add_one_button"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:id="@+id/subtract_one_button"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/order"
-        android:id="@+id/order_button"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delete"
-        android:id="@+id/delete_button"/>
+        android:orientation="vertical"
+        tools:context=".DetailFragment">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/detail_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/detail_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="basketball" />
+
+        <TextView
+            android:id="@+id/detail_supplier_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Spalding" />
+
+        <TextView
+            android:id="@+id/detail_price_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="$12" />
+
+        <TextView
+            android:id="@+id/detail_quantity_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="14" />
+
+        <Button
+            android:id="@+id/add_one_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/subtract_one_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/order_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete" />
+
+    </LinearLayout>
+</ScrollView>

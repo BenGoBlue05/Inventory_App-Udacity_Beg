@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.ProductContract;
@@ -53,6 +54,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mSupplierTextView;
     private TextView mQuantityTextView;
     private TextView mPriceTextView;
+    private ImageView mImageView;
 
 
     @Override
@@ -68,6 +70,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mSupplierTextView = (TextView) rootView.findViewById(R.id.detail_supplier_textview);
         mQuantityTextView = (TextView) rootView.findViewById(R.id.detail_quantity_textview);
         mPriceTextView = (TextView) rootView.findViewById(R.id.detail_price_textview);
+        mImageView = (ImageView) rootView.findViewById(R.id.detail_imageview);
 
         Button plusButton = (Button) rootView.findViewById(R.id.add_one_button);
         Button minusButton = (Button) rootView.findViewById(R.id.subtract_one_button);
@@ -155,11 +158,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             String supplier = data.getString(COL_SUPPLIER);
             String quantity = "" + data.getInt(COL_QUANTITY);
             String price = "" + data.getDouble(COL_PRICE);
+            Uri imageUri = Uri.parse(data.getString(COL_IMAGE_URI));
 
             mNameTextView.setText(name);
             mSupplierTextView.setText(supplier);
             mQuantityTextView.setText(quantity);
             mPriceTextView.setText(price);
+            mImageView.setImageBitmap(Utils.getBitmap(getContext(), imageUri));
         }
     }
 

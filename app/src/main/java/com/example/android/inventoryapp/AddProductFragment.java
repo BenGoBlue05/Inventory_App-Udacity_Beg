@@ -6,11 +6,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -26,9 +23,6 @@ import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.ProductContract;
 import com.example.android.inventoryapp.data.ProductDbHelper;
-
-import java.io.FileDescriptor;
-import java.io.IOException;
 
 public class AddProductFragment extends Fragment {
 
@@ -105,31 +99,7 @@ public class AddProductFragment extends Fragment {
             Log.i(LOG_TAG, "URI: " + photoUri);
             placeHolderTextView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
-            imageView.setImageBitmap(getBitmap(photoUri));
-        }
-    }
-
-    //From Google Sample
-    public Bitmap getBitmap(Uri uri) {
-        ParcelFileDescriptor parcelFileDescriptor = null;
-        try {
-            parcelFileDescriptor = getActivity().getContentResolver()
-                    .openFileDescriptor(uri, "r");
-            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-            Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-            parcelFileDescriptor.close();
-            return bitmap;
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Image load failed", e);
-            return null;
-        } finally {
-            try {
-                if (parcelFileDescriptor != null) {
-                    parcelFileDescriptor.close();
-                }
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Error closing ParcelFile Descriptor", e);
-            }
+            imageView.setImageBitmap(Utils.getBitmap(getContext(), photoUri));
         }
     }
 
