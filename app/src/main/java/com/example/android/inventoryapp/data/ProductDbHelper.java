@@ -11,18 +11,19 @@ import com.example.android.inventoryapp.data.ProductContract.ProductEntry;
 public class ProductDbHelper extends SQLiteOpenHelper{
 
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "product.db";
 
     private static final String TEXT_TYPE = " TEXT NOT NULL";
-    private static final String COMMA_SEP = ",";
+    private static final String COMMA_SEP = ", ";
     private static final String SQL_CREATE_TABLE =
             "CREATE TABLE " + ProductEntry.TABLE_NAME + " (" +
                     ProductEntry._ID + " INTEGER PRIMARY KEY, " +
                     ProductEntry.COLUMN_NAME + TEXT_TYPE + COMMA_SEP +
                     ProductEntry.COLUMN_SUPPLIER + TEXT_TYPE + COMMA_SEP +
                     ProductEntry.COLUMN_QUANTITY + " INTEGER NOT NULL" + COMMA_SEP +
-                    ProductEntry.COLUMN_PRICE + " REAL NOT NULL" + " );";
+                    ProductEntry.COLUMN_PRICE + " REAL NOT NULL" + COMMA_SEP +
+                    ProductEntry.COLUMN_IMAGE_URI + " BLOB NOT NULL);";
 
     private static final String SQL_DELETE_TABLE =
             "DROP TABLE IF EXISTS " + ProductEntry.TABLE_NAME;

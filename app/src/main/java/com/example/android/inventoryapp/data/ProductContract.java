@@ -30,6 +30,7 @@ public final class ProductContract {
         public static final String COLUMN_SUPPLIER = "supplier";
         public static final String COLUMN_QUANTITY = "quantity";
         public static final String COLUMN_PRICE = "price";
+        public static final String COLUMN_IMAGE_URI = "image_uri";
 
         public static Uri buildProductUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);

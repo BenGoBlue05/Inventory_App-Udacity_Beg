@@ -38,7 +38,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             ProductContract.ProductEntry.COLUMN_NAME,
             ProductContract.ProductEntry.COLUMN_SUPPLIER,
             ProductContract.ProductEntry.COLUMN_QUANTITY,
-            ProductContract.ProductEntry.COLUMN_PRICE
+            ProductContract.ProductEntry.COLUMN_PRICE,
+            ProductContract.ProductEntry.COLUMN_IMAGE_URI
     };
 
     static final int COL_PRODUCT_ID = 0;
@@ -46,6 +47,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     static final int COL_SUPPLIER = 2;
     static final int COL_QUANTITY = 3;
     static final int COL_PRICE = 4;
+    static final int COL_IMAGE_URI = 5;
 
     private TextView mNameTextView;
     private TextView mSupplierTextView;

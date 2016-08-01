@@ -9,13 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:text="@string/add_image"
+            android:gravity="center"
+            android:id="@+id/add_product_placeholder_textview"
+            android:background="@android:color/holo_blue_bright"/>
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="360dp"
-            android:src="@android:drawable/ic_menu_add"
-            android:background="@android:color/holo_blue_bright"
-            android:id="@+id/add_product_image_view"/>
+            android:id="@+id/add_product_image_view"
+            android:visibility="gone"
+            android:scaleType="centerCrop"/>
 
         <EditText
             android:id="@+id/product_name_edit_text"
