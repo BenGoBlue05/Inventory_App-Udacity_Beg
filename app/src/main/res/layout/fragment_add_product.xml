@@ -27,13 +27,15 @@
             android:id="@+id/product_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/product_name" />
+            android:hint="@string/product_name"
+            android:inputType="textShortMessage" />
 
         <EditText
             android:id="@+id/supplier_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/supplier" />
+            android:hint="@string/supplier"
+            android:inputType="textShortMessage"/>
 
         <EditText
             android:id="@+id/price_edit_text"

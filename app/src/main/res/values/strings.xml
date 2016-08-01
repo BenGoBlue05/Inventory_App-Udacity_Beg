@@ -17,4 +17,5 @@
     <string name="add_image">Add Image</string>
     <string name="please_enter">Please Enter </string>
     <string name="image">Image</string>
+    <string name="supplier_email">Supplier Email</string>
 </resources>
