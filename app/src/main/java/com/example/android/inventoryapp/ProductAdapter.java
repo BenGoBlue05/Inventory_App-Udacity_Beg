@@ -3,7 +3,6 @@ package com.example.android.inventoryapp;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +61,6 @@ public class ProductAdapter extends CursorAdapter{
         holder.saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(LOG_TAG, "BUTTON CLICKED");
-                Log.i(LOG_TAG, Long.toString(id));
                 int newQuantity = quantity - 1;
                 updateQuantity(context, id, newQuantity);
             }

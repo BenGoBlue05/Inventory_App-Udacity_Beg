@@ -8,19 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="360dp"
-            android:text="@string/add_image"
-            android:gravity="center"
             android:id="@+id/add_product_placeholder_textview"
-            android:background="@android:color/holo_blue_bright"/>
-        <ImageView
             android:layout_width="match_parent"
             android:layout_height="360dp"
+            android:background="@android:color/holo_blue_bright"
+            android:gravity="center"
+            android:text="@string/add_image" />
+
+        <ImageView
             android:id="@+id/add_product_image_view"
-            android:visibility="gone"
-            android:scaleType="centerCrop" />
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/product_name_edit_text"
@@ -34,26 +36,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/supplier"
-            android:inputType="textShortMessage"/>
+            android:inputType="textShortMessage" />
 
-        <EditText
-            android:id="@+id/price_edit_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/price"
-            android:inputType="numberDecimal"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$"/>
+
+            <EditText
+                android:id="@+id/price_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/price"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/quantity_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/quantity"
-            android:inputType="numberSigned"/>
+            android:inputType="numberSigned" />
 
         <Button
+            android:id="@+id/add_product_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_product"
-            android:id="@+id/add_product_button"/>
+            android:text="@string/add_product" />
     </LinearLayout>
 </ScrollView>

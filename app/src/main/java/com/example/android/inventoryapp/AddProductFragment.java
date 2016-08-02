@@ -106,7 +106,6 @@ public class AddProductFragment extends Fragment {
             if (photoUri != null) {
                 mUriStr = photoUri.toString();
             }
-            Log.i(LOG_TAG, "URI: " + photoUri);
             placeHolderTextView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
             imageView.setImageBitmap(Utils.getBitmap(getContext(), photoUri));
@@ -189,7 +188,6 @@ public class AddProductFragment extends Fragment {
             ContentValues values = createContentValues(
                     getName(), getSupplier(), getQuantity(), getPrice(), getUriStr());
             long id = mDb.insert(ProductContract.ProductEntry.TABLE_NAME, null, values);
-            Log.i(LOG_TAG, "insert row successful; row _id = " + id);
             if (id == -1) {
                 Log.i(LOG_TAG, "insert failed");
             }

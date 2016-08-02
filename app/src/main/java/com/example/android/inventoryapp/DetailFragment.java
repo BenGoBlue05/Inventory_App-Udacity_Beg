@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +86,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(LOG_TAG, "PLUS BUTTON CLICKED");
                 onQuantityChanged(1);
             }
         });
@@ -137,7 +135,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             }
             long id = ProductContract.ProductEntry.getIdFromUri(uri);
             mUri = ProductContract.ProductEntry.buildProductWithQuantityUri(id, quantity);
-            Log.i(LOG_TAG, mUri.toString());
             getContext().getContentResolver().update(mUri, null, null, null);
             getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
         }
@@ -185,8 +182,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mQuantityTextView.setText(quantity);
             mPriceTextView.setText(Utils.formatDollar(price));
             mImageView.setImageBitmap(Utils.getBitmap(getContext(), imageUri));
-            Log.i(LOG_TAG, "IMAGE ST");
-
         }
     }
 

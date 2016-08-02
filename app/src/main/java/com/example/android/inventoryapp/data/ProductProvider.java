@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 /**
  * Created by bplewis5 on 7/28/16.
@@ -79,7 +78,6 @@ public class ProductProvider extends ContentProvider {
                 break;
             case PRODUCT_ID_AND_QUANTITY:
                 retCursor = getProductById(uri, projection);
-                Log.i(LOG_TAG, "RECEIVED URI");
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -158,8 +156,6 @@ public class ProductProvider extends ContentProvider {
                 break;
             case PRODUCT_ID_AND_QUANTITY:
                 rowsUpdated = updateQuantity(uri);
-                Log.i(LOG_TAG, "URI RECOGNIZED");
-                Log.i(LOG_TAG, "URI: " + uri.toString());
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -174,7 +170,6 @@ public class ProductProvider extends ContentProvider {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int quantity = ProductContract.ProductEntry.getQuantityFromUri(uri);
         long id = ProductContract.ProductEntry.getIdFromUri(uri);
-        Log.i(LOG_TAG, "QUANTITY = " + quantity);
         if (quantity < 0) {
             quantity = 0;
         }
