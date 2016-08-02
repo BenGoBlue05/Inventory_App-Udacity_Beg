@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class Utils {
     //From Google Sample
     public static Bitmap getBitmap(Context context, Uri uri) {
         ParcelFileDescriptor parcelFileDescriptor = null;
+
         try {
             parcelFileDescriptor = context.getContentResolver()
                     .openFileDescriptor(uri, "r");
@@ -39,6 +41,12 @@ public class Utils {
                 Log.e(LOG_TAG, "Error closing ParcelFile Descriptor", e);
             }
         }
+    }
+
+    public static void makeToast(String fieldName, Context context){
+        Toast.makeText(context,
+                context.getString(R.string.please_enter) + " "  + fieldName,
+                Toast.LENGTH_LONG).show();
     }
 
 }

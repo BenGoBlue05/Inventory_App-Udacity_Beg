@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.ProductContract;
 import com.example.android.inventoryapp.data.ProductDbHelper;
@@ -75,11 +75,21 @@ public class AddProductFragment extends Fragment {
         mImageOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent intent;
+
+                if (Build.VERSION.SDK_INT < 19) {
+                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+                } else {
+                    intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                }
+
                 intent.setType("image/*");
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivityForResult(intent, REQUEST_IMAGE_GET);
                 }
+
+
             }
         };
 
@@ -144,32 +154,26 @@ public class AddProductFragment extends Fragment {
 
     private boolean isValidInput() {
         if (TextUtils.isEmpty(getUriStr())) {
-            makeToast(getString(R.string.image));
+            Utils.makeToast(getString(R.string.image), getContext());
             return false;
         }
         if (TextUtils.isEmpty(getName())) {
-            makeToast(getString(R.string.product_name));
+            Utils.makeToast(getString(R.string.product_name), getContext());
             return false;
         }
         if (TextUtils.isEmpty(getSupplier())) {
-            makeToast(getString(R.string.supplier));
+            Utils.makeToast(getString(R.string.supplier), getContext());
             return false;
         }
         if (getPrice() == EMPTY_NUMBER) {
-            makeToast(getString(R.string.price));
+            Utils.makeToast(getString(R.string.price), getContext());
             return false;
         }
         if (getQuantity() == EMPTY_NUMBER) {
-            makeToast(getString(R.string.quantity));
+            Utils.makeToast(getString(R.string.quantity), getContext());
             return false;
         }
         return true;
-    }
-
-    private void makeToast(String fieldName){
-        Toast.makeText(getContext(),
-                getString(R.string.please_enter) + " "  + fieldName,
-                Toast.LENGTH_LONG).show();
     }
 
     private class ProductLoader extends AsyncTaskLoader<Void> {

@@ -3,11 +3,14 @@ package com.example.android.inventoryapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class DetailActivity extends AppCompatActivity
-        implements DetailFragment.DeleteDialogFragment.DeleteDialogListener {
+        implements DetailFragment.DeleteDialogFragment.DeleteDialogListener,
+        DetailFragment.OrderDialogFragment.OrderDialogListener {
 
     private final String LOG_TAG = DetailActivity.class.getSimpleName();
 
@@ -37,4 +40,30 @@ public class DetailActivity extends AppCompatActivity
         }
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
+
+    @Override
+    public void onOrderClick(DialogFragment dialogFragment) {
+        DetailFragment.OrderDialogFragment orderDialogFragment =
+                (DetailFragment.OrderDialogFragment) dialogFragment;
+
+        String name = orderDialogFragment.getArguments().getString(DetailFragment.ORDER_NAME_KEY);
+        String quantity = orderDialogFragment.getQuantity();
+        String email = orderDialogFragment.getEmail();
+        if (isComplete(email, quantity)){
+            orderDialogFragment.composeEmail(new String[]{email}, quantity, name);
+        }
+    }
+
+    private boolean isComplete(String email, String quantity) {
+        if (TextUtils.isEmpty(quantity)) {
+            Utils.makeToast(getString(R.string.quantity), getApplicationContext());
+            return false;
+        }
+        if (TextUtils.isEmpty(email)) {
+            Utils.makeToast(getString(R.string.supplier_email), getApplicationContext());
+            return false;
+        }
+        return true;
+    }
+
 }
