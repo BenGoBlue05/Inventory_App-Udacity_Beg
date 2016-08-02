@@ -82,14 +82,13 @@ public class AddProductFragment extends Fragment {
                 } else {
                     intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
                 }
 
                 intent.setType("image/*");
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivityForResult(intent, REQUEST_IMAGE_GET);
                 }
-
-
             }
         };
 

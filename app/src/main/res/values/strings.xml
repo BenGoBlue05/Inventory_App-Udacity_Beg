@@ -17,5 +17,8 @@
     <string name="supplier_email">Supplier Email</string>
     <string name="send">Send</string>
     <string name="email_order_subject">New Order</string>
-    <string name="email_message" formatted="false">I would like to order %s %s.</string>
+    <string name="email_message" formatted="false">I would like to order %s %ss.</string>
+    <string name="empty_state">Add your first product!</string>
+    <string name="email_app_not_found">Email app not found</string>
+    <string name="email">Email</string>
 </resources>

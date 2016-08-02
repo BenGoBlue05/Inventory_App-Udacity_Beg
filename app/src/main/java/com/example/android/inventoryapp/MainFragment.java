@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.ProductContract;
 
@@ -24,6 +25,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private ProductAdapter mAdapter;
     private ListView mListView;
+    private TextView mEmptyStateTextView;
     private int mPosition = ListView.INVALID_POSITION;
     private static final String SELECTED_KEY = "selected_position";
     private static final int PRODUCT_LOADER = 0;
@@ -61,6 +63,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         mAdapter = new ProductAdapter(getActivity(), null, 0);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mListView = (ListView) rootView.findViewById(R.id.listview_products);
+        mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_state_textview);
+        mListView.setEmptyView(mEmptyStateTextView);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,6 +115,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mEmptyStateTextView.setText(R.string.empty_state);
         mAdapter.swapCursor(data);
         if (mPosition != ListView.INVALID_POSITION){
             mListView.smoothScrollToPosition(mPosition);

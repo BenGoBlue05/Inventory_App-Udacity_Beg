@@ -1,9 +1,12 @@
 package com.example.android.inventoryapp;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,7 +26,15 @@ public class Utils {
     //From Google Sample
     public static Bitmap getBitmap(Context context, Uri uri) {
         ParcelFileDescriptor parcelFileDescriptor = null;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ContentResolver resolver = context.getContentResolver();
+            try{
+                resolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
 
+        }
         try {
             parcelFileDescriptor = context.getContentResolver()
                     .openFileDescriptor(uri, "r");

@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.ProductContract;
 
@@ -294,7 +295,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     .putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_order_subject))
                     .putExtra(Intent.EXTRA_TEXT,
                             String.format(getString(R.string.email_message), quantity, productName));
-            startActivity(intent);
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(getContext(), getContext().getString(R.string.email_app_not_found),
+                        Toast.LENGTH_LONG).show();
+            }
         }
 
         public interface OrderDialogListener {
