@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.util.Formatter;
+import java.util.Locale;
 
 /**
  * Created by bplewis5 on 8/1/16.
@@ -47,6 +49,12 @@ public class Utils {
         Toast.makeText(context,
                 context.getString(R.string.please_enter) + " "  + fieldName,
                 Toast.LENGTH_LONG).show();
+    }
+
+    public static String formatDollar(double dollars){
+        StringBuilder builder = new StringBuilder();
+        Formatter formatter = new Formatter(builder, Locale.US);
+        return formatter.format("$%.2f", dollars).toString();
     }
 
 }

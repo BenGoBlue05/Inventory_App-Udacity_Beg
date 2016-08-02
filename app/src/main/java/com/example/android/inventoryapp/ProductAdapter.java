@@ -53,12 +53,12 @@ public class ProductAdapter extends CursorAdapter{
         ViewHolder holder = (ViewHolder) view.getTag();
         String name = cursor.getString(MainFragment.COL_NAME);
         final int quantity = cursor.getInt(MainFragment.COL_QUANTITY);
-        String price = "" + cursor.getDouble(MainFragment.COL_PRICE);
+        double price = cursor.getDouble(MainFragment.COL_PRICE);
         final long id = cursor.getLong(MainFragment.COL_PRODUCT_ID);
 
         holder.nameTextView.setText(name);
         holder.quantityTextView.setText(Integer.toString(quantity));
-        holder.priceTextView.setText(price);
+        holder.priceTextView.setText(Utils.formatDollar(price));
         holder.saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +68,6 @@ public class ProductAdapter extends CursorAdapter{
                 updateQuantity(context, id, newQuantity);
             }
         });
-
     }
 
     private void updateQuantity(Context context, long id, int quantity){

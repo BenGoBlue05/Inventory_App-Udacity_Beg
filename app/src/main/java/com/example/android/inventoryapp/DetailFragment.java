@@ -177,13 +177,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mProductName = data.getString(COL_NAME);
             String supplier = data.getString(COL_SUPPLIER);
             String quantity = "" + data.getInt(COL_QUANTITY);
-            String price = "" + data.getDouble(COL_PRICE);
+            double price = data.getDouble(COL_PRICE);
             Uri imageUri = Uri.parse(data.getString(COL_IMAGE_URI));
 
             mNameTextView.setText(mProductName);
             mSupplierTextView.setText(supplier);
             mQuantityTextView.setText(quantity);
-            mPriceTextView.setText(price);
+            mPriceTextView.setText(Utils.formatDollar(price));
             mImageView.setImageBitmap(Utils.getBitmap(getContext(), imageUri));
             Log.i(LOG_TAG, "IMAGE ST");
 
